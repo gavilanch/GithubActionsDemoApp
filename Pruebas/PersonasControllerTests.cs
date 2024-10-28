@@ -49,7 +49,7 @@ namespace Pruebas
             var viewResult = respuesta as ViewResult;
             var modelo = (PersonasIndex)viewResult!.Model!;
 
-            Assert.AreEqual(-1, modelo.Personas.Count());
+            Assert.AreEqual(0, modelo.Personas.Count());
         }
     }
 }
