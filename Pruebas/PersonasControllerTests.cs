@@ -11,7 +11,7 @@ namespace Pruebas
         [TestMethod]
         public async Task Index_RetornaDosPersonas()
         {
-            // Preparaci髇
+            // Preparaci贸n
             var nombreBD = Guid.NewGuid().ToString();
             var contexto = ConstruirContext(nombreBD);
 
@@ -25,7 +25,7 @@ namespace Pruebas
             var controller = new PersonasController(contexto2);
             var respuesta = await controller.Index();
 
-            // Verificaci髇
+            // Verificaci贸n
 
             var viewResult = respuesta as ViewResult;
             var modelo = (PersonasIndex)viewResult!.Model!;
@@ -36,7 +36,7 @@ namespace Pruebas
         [TestMethod]
         public async Task Index_RetornaVacio_CuandoNoHayPersonas()
         {
-            // Preparaci髇
+            // Preparaci贸n
             var nombreBD = Guid.NewGuid().ToString();
             var contexto = ConstruirContext(nombreBD);
 
@@ -44,12 +44,12 @@ namespace Pruebas
             var controller = new PersonasController(contexto);
             var respuesta = await controller.Index();
 
-            // Verificaci髇
+            // Verificaci贸n
 
             var viewResult = respuesta as ViewResult;
             var modelo = (PersonasIndex)viewResult!.Model!;
 
-            Assert.AreEqual(0, modelo.Personas.Count());
+            Assert.AreEqual(-1, modelo.Personas.Count());
         }
     }
 }
