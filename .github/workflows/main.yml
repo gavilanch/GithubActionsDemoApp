@@ -2,6 +2,10 @@ name: No se
 
 on: 
   push:
+    paths:
+      - ".github/workflows/main.yml"
+      - "GithubActionsDemoApp/**"
+      - "Pruebas/**"
   workflow_dispatch:
 
 jobs:
