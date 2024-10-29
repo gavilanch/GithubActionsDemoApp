@@ -5,6 +5,8 @@ on:
 
 jobs:
   build:
+    env:
+      proyecto: GithubActionsDemoApp/GithubActionsDemoApp.csproj
     runs-on: ubuntu-latest
     steps:
       - name: Obteniendo el codigo
@@ -27,7 +29,7 @@ jobs:
       - run: ls
 
       - name: dotnet publish
-        run: dotnet publish GithubActionsDemoApp/GithubActionsDemoApp.csproj -c Release -o myapp
+        run: dotnet publish $proyecto -c Release -o myapp
 
       - run: ls
 
