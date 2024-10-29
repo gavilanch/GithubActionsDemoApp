@@ -93,5 +93,15 @@ jobs:
           app-name: ${{ env.AZURE_APP_SERVICE_NOMBRE }}
           publish-profile: ${{ secrets.AZURE_APP_SERVICE_PERFIL_PUBLICO }}
           package: ${{ env.AZURE_APP_SERVICE_UBICACION_PAQUETE }}
-        
       
+      - name: obtener los artefactos sql
+        uses: actions/download-artifact@v4.1.8
+        with:
+          name: migraciones
+          
+      - name: Azure SQL Deploy
+        uses: Azure/sql-action@v2.2.1
+        with:
+          connection-string: ${{ secrets.CONNECTION_STRING }}
+          path: ./migraciones.sql
+              
