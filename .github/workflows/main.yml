@@ -1,9 +1,9 @@
 name: No se
 
 env:
-  AZURE_WEBAPP_NAME: GithubActionsDemoApp    # set this to the name of your Azure Web App
-  AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
-  DOTNET_VERSION: '8'                 # set this to the .NET Core version to use
+  AZURE_APP_SERVICE_NOMBRE: GithubActionsDemoApp  
+  AZURE_APP_SERVICE_UBICACION_PAQUETE: '.'    
+  DOTNET_VERSION: '8'          
 
 on: 
   push:
@@ -27,7 +27,7 @@ jobs:
       - name: Instalar .NET
         uses: actions/setup-dotnet@v4.1.0
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Obteniendo las dependencias
         run: dotnet restore
@@ -79,8 +79,8 @@ jobs:
       - name: desplegar a Azure
         uses: Azure/webapps-deploy@v3.0.1
         with:
-          app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: '.'
+          app-name: ${{ env.AZURE_APP_SERVICE_NOMBRE }}
+          publish-profile: ${{ secrets.AZURE_APP_SERVICE_PERFIL_PUBLICO }}
+          package: ${{ env.AZURE_APP_SERVICE_UBICACION_PAQUETE }}
         
       
