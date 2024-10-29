@@ -25,3 +25,14 @@ jobs:
         run: dotnet test --no-build
 
       - run: ls
+
+      - name: dotnet publish
+        run: dotnet publish -c Release -o myapp
+
+      - run: ls
+
+      - uses: actions/upload-artifact@v4.4.3
+        with:
+          path: ./myapp
+          name: build
+      
