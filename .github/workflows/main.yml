@@ -44,3 +44,4 @@ jobs:
         with:
           files: ./myapp
           body: "Nuestra aplicacion"
+          tag_name: ${{ github.ref_name }}
