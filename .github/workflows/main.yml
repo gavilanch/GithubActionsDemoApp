@@ -5,6 +5,8 @@ on:
 
 jobs:
   build:
+    permissions:
+      contents: write
     env:
       proyecto: GithubActionsDemoApp/GithubActionsDemoApp.csproj
     runs-on: ubuntu-latest
@@ -37,4 +39,8 @@ jobs:
         with:
           path: ./myapp
           name: build
-      
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: ./myapp
+          body: "Nuestra aplicacion"
