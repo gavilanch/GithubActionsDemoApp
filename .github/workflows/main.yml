@@ -29,6 +29,9 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
+      - name: Instalar el EF Core CLI
+        run: dotnet tool install --global --dotnet-ef
+
       - name: Obteniendo las dependencias
         run: dotnet restore
 
@@ -43,12 +46,20 @@ jobs:
       - name: dotnet publish
         run: dotnet publish $proyecto -c Release -o myapp --runtime win-x86
 
+      - name: generar migraciones
+        run: dotnet ef migrations script -i -o migraciones\migraciones.sql --project $proyecto
+
       - run: ls
 
       - uses: actions/upload-artifact@v4.4.3
         with:
           path: ./myapp
           name: build
+
+      - uses: actions/upload-artifact@v4.4.3
+        with:
+          path: ./migraciones
+          name: migraciones
 
       - name: Zip
         if: startsWith(github.ref, 'refs/tags/')
