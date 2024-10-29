@@ -23,3 +23,5 @@ jobs:
 
       - name: Realizar pruebas
         run: dotnet test --no-build
+
+      - run: ls
