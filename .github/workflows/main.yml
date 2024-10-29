@@ -40,8 +40,11 @@ jobs:
           path: ./myapp
           name: build
 
+      - name: Zip
+        run: zip -r mi_app.zip ./myapp
+
       - uses: softprops/action-gh-release@v2
         with:
-          files: ./myapp/**
+          files: ./mi_app.zip
           body: "Nuestra aplicacion"
           tag_name: ${{ github.ref_name }}
