@@ -27,7 +27,7 @@ jobs:
       - run: ls
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o myapp
+        run: dotnet publish GithubActionsDemoApp/GithubActionsDemoApp.csproj -c Release -o myapp
 
       - run: ls
 
