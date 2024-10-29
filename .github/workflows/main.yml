@@ -67,10 +67,14 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - run: ls
+      
       - name: obtener los artefactos
         uses: actions/download-artifact@v4.1.8
         with:
           name: build
+
+      - run: ls
 
       - name: desplegar a Azure
         uses: Azure/webapps-deploy@v3.0.1
