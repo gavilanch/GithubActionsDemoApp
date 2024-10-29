@@ -47,7 +47,7 @@ jobs:
         run: dotnet publish $proyecto -c Release -o myapp --runtime win-x86
 
       - name: generar migraciones
-        run: dotnet ef migrations script -i -o migraciones\migraciones.sql --project $proyecto
+        run: dotnet ef migrations script -i -o migraciones.sql --project $proyecto
 
       - run: ls
 
@@ -58,7 +58,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4.4.3
         with:
-          path: ./migraciones
+          path: migraciones.sql
           name: migraciones
 
       - name: Zip
