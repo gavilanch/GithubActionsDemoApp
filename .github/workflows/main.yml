@@ -57,7 +57,6 @@ jobs:
       - uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          name: mi_app
           files: ./mi_app.zip
           body: "Nuestra aplicacion"
           tag_name: ${{ github.ref_name }}
@@ -71,7 +70,7 @@ jobs:
       - name: obtener los artefactos
         uses: actions/download-artifact@v4.1.8
         with:
-          name: mi_app
+          name: build
 
       - name: desplegar a Azure
         uses: Azure/webapps-deploy@v3.0.1
