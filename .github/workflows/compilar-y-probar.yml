@@ -3,7 +3,7 @@ name: Compilar y Probar
 on:
   pull_request:
     branches:
-      - main
+      - master
 
 env:
   DOTNET_VERSION: '8'          
