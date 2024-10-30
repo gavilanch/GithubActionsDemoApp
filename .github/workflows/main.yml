@@ -1,5 +1,10 @@
 name: No se
 
+env:
+  AZURE_APP_SERVICE_NOMBRE: GithubActionsDemoApp  
+  AZURE_APP_SERVICE_UBICACION_PAQUETE: '.'    
+  DOTNET_VERSION: '8'          
+
 on: 
   push:
     paths:
@@ -22,7 +27,10 @@ jobs:
       - name: Instalar .NET
         uses: actions/setup-dotnet@v4.1.0
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Instalar el EF Core CLI
+        run: dotnet tool install --global dotnet-ef
 
       - name: Obteniendo las dependencias
         run: dotnet restore
@@ -38,12 +46,20 @@ jobs:
       - name: dotnet publish
         run: dotnet publish $proyecto -c Release -o myapp --runtime win-x86
 
+      - name: generar migraciones
+        run: dotnet ef migrations script -i -o migraciones.sql --project $proyecto
+
       - run: ls
 
       - uses: actions/upload-artifact@v4.4.3
         with:
           path: ./myapp
           name: build
+
+      - uses: actions/upload-artifact@v4.4.3
+        with:
+          path: migraciones.sql
+          name: migraciones
 
       - name: Zip
         if: startsWith(github.ref, 'refs/tags/')
@@ -55,3 +71,37 @@ jobs:
           files: ./mi_app.zip
           body: "Nuestra aplicacion"
           tag_name: ${{ github.ref_name }}
+
+  deploy:
+    #permissions:
+     # contents: none
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - run: ls
+      
+      - name: obtener los artefactos
+        uses: actions/download-artifact@v4.1.8
+        with:
+          name: build
+
+      - run: ls
+
+      - name: desplegar a Azure
+        uses: Azure/webapps-deploy@v3.0.1
+        with:
+          app-name: ${{ env.AZURE_APP_SERVICE_NOMBRE }}
+          publish-profile: ${{ secrets.AZURE_APP_SERVICE_PERFIL_PUBLICO }}
+          package: ${{ env.AZURE_APP_SERVICE_UBICACION_PAQUETE }}
+      
+      - name: obtener los artefactos sql
+        uses: actions/download-artifact@v4.1.8
+        with:
+          name: migraciones
+          
+      - name: Azure SQL Deploy
+        uses: Azure/sql-action@v2.2.1
+        with:
+          connection-string: ${{ secrets.CONNECTION_STRING }}
+          path: ./migraciones.sql
+              
