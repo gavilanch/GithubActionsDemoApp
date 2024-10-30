@@ -3,6 +3,10 @@ name: ejemplo paths
 on: 
   workflow_dispatch:
   push:
+    paths:
+      - ".github/workflows/paths.yml"
+      - "GithubActionsDemoApp/**"
+      - "Pruebas/**"
     branches:
       master
 
